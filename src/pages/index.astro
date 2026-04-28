@@ -7,86 +7,56 @@ const posts = await response.json();
 ---
 
 <html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>El Cuaderno | Blog Automatizado</title>
-		<link
-			href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;700&display=swap"
-			rel="stylesheet"
-		/>
-		
-		<script is:inline>
-			tailwind.config = {
-				theme: {
-					extend: {
-						colors: {
-							crema: "#fdfcf8",
-							carbon: "#1c1c1c",
-							acento: "#c2410c",
-						},
-						fontFamily: {
-							serif: ["DM Serif Display", "serif"],
-							sans: ["Inter", "sans-serif"],
-						},
-					},
-				},
-			};
-		</script>
-	</head>
-	<body class="bg-[#fdfcf8] text-[#1c1c1c] font-sans m-0 p-0">
-		<div class="w-full flex justify-center">
-			<div
-				class="w-full max-w-5xl px-6 py-20 flex flex-col items-center justify-center"
-			>
-				<header class="border-b border-black/10 pb-16 mb-20">
-					<h1
-						class="font-serif text-6xl md:text-7xl mb-6 tracking-tight text-[#1c1c1c]"
-					>
-						El Cuaderno <span class="text-[#c2410c]">.</span>
-					</h1>
-					<p
-						class="text-black/50 text-sm md:text-lg uppercase tracking-[0.3em] font-medium"
-					>
-						Publicaciones vía Airtable + Make
-					</p>
-				</header>
-				<div class="flex justify-center items-center">
-					<div
-						class="grid gap-x-12 gap-y-20 md:grid-cols-2 lg:grid-cols-3"
-					>
-						{
-							posts.map((post: any) => (
-								<article class="group flex flex-col items-start">
-									<time class="text-[10px] font-bold text-[#c2410c] uppercase tracking-widest mb-6 block border border-[#c2410c]/20 px-2 py-1 rounded">
-										{post.fecha}
-									</time>
-									<h2 class="font-serif text-3xl mb-6 group-hover:text-[#c2410c] transition-colors duration-300 leading-snug">
-										{post.titulo}
-									</h2>
-									<p class="text-black/60 font-light text-sm leading-relaxed mb-8 line-clamp-3 italic">
-										{post.contenido}
-									</p>
-									<a
-										href={`/blog/${post.slug}`}
-										class="mt-auto text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 group-hover:border-[#c2410c] group-hover:text-[#c2410c] transition-all"
-									>
-										Leer artículo
-									</a>
-								</article>
-							))
-						}
-					</div>
-				</div>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>El Cuaderno | Blog Automatizado con Astro</title>
+        <meta name="description" content="Un cuaderno digital minimalista automatizado con Airtable, Make y Astro para un rendimiento extremo." />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    </head>
+    <body class="bg-crema text-carbon font-sans m-0 p-0">
+        <div class="w-full flex justify-center">
+            <main class="w-full max-w-5xl px-6 py-20 flex flex-col items-center justify-center">
+                <header class="border-b border-black/10 pb-16 mb-20 text-center">
+                    <h1 class="font-serif text-6xl md:text-7xl mb-6 tracking-tight">
+                        El Cuaderno <span class="text-acento" aria-hidden="true">.</span>
+                    </h1>
+                    <p class="text-black/70 text-sm md:text-lg uppercase tracking-[0.3em] font-medium">
+                        Publicaciones vía Airtable + Make
+                    </p>
+                </header>
 
-				<footer class="mt-32 pt-12 border-t border-black/5 text-center">
-					<p
-						class="text-[10px] text-black/30 uppercase tracking-[0.5em]"
-					>
-						Edición Digital 2024
-					</p>
-				</footer>
-			</div>
-		</div>
-	</body>
+                <div class="grid gap-x-12 gap-y-20 md:grid-cols-2 lg:grid-cols-3">
+                    {posts.map((post: any) => (
+                        <article class="group flex flex-col items-start">
+                            <time datetime={post.fecha} class="text-[10px] font-bold text-acento uppercase tracking-widest mb-6 block border border-acento/20 px-2 py-1 rounded">
+                                {post.fecha}
+                            </time>
+                            <h2 class="font-serif text-3xl mb-6 group-hover:text-acento transition-colors duration-300 leading-snug">
+                                {post.titulo}
+                            </h2>
+                            <p class="text-black/70 font-light text-sm leading-relaxed mb-8 line-clamp-3 italic">
+                                {post.contenido}
+                            </p>
+                            <a
+                                href={`/blog/${post.slug}`}
+                                aria-label={`Leer más sobre ${post.titulo}`}
+                                class="mt-auto text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 group-hover:border-acento group-hover:text-acento transition-all"
+                            >
+                                Leer artículo
+                            </a>
+                        </article>
+                    ))}
+                </div>
+
+                <footer class="mt-32 pt-12 border-t border-black/5 text-center">
+                    <p class="text-[10px] text-black/60 uppercase tracking-[0.5em]">
+                        Edición Digital 2026
+                    </p>
+                </footer>
+            </main>
+        </div>
+    </body>
 </html>

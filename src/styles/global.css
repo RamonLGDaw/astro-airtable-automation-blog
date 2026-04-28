@@ -1,2 +1,17 @@
 @import "tailwindcss";
 
+
+@theme {
+  --color-crema: #fdfcf8;
+  --color-carbon: #1c1c1c;
+  --color-acento: #c2410c;
+
+  --font-serif: "DM Serif Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+/* Mejora de contraste para accesibilidad */
+.text-low-contrast {
+  @apply text-black/70; /* Subimos de 30/50 a 70 para pasar el test de contraste */
+}
+
