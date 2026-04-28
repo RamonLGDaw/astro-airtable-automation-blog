@@ -1,0 +1,73 @@
+---
+interface Post {
+  titulo: string;
+  slug: string;
+  contenido: string;
+  fecha: string;
+}
+
+export async function getStaticPaths() {
+  const response = await fetch(import.meta.env.MAKE_WEBHOOK_URL);
+  const posts: Post[] = await response.json();
+  
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const post = Astro.props.post as Post;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>{post.titulo}</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+       <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script is:inline>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              crema: '#fdfcf8',
+              carbon: '#1c1c1c',
+              acento: '#c2410c',
+            },
+            fontFamily: {
+              serif: ['DM Serif Display', 'serif'],
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-[#fdfcf8] text-[#1c1c1c] font-sans">
+    <nav class="p-8 max-w-3xl mx-auto">
+        <a href="/" class="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1c1c1c]">
+            <span class="group-hover:-translate-x-1 transition-transform">←</span> Volver al inicio
+        </a>
+    </nav>
+
+    <article class="max-w-2xl mx-auto px-6 py-12">
+        <header class="mb-16 text-center">
+            <time class="text-[#c2410c] font-bold text-xs uppercase tracking-[0.2em] mb-4 block italic">
+                Publicado el {post.fecha}
+            </time>
+            <h1 class="font-serif text-5xl md:text-6xl leading-[1.1] mb-8 text-[#1c1c1c]">
+                {post.titulo}
+            </h1>
+            <div class="w-12 h-1 bg-black/10 mx-auto"></div>
+        </header>
+        
+        <div class="font-serif text-lg leading-[1.8] text-black/80 space-y-8" style="white-space: pre-wrap;">
+            {post.contenido}
+        </div>
+
+        <footer class="mt-24 pt-12 border-t border-black/10 text-center">
+            <p class="text-xs text-black/40 uppercase tracking-widest italic">Astro + Airtable Project</p>
+        </footer>
+    </article>
+  </body>
+</html>
